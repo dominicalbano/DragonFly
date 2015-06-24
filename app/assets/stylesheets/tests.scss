@@ -1,0 +1,257 @@
+// Place all the styles related to the tests controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+$green-lightest: #E2F3EC;
+$green-light: #87BDA6;
+$green-mid: #4A9273;
+$green-dark: #1D6848;
+$green-darkest: #033A22;
+
+// index index index index index index index index index index
+// Style for the /tests index
+// place only styles specific to that page here
+// index index index index index index index index index index
+
+.archive-table-wrapper div{
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+.archive-table-wrapper p{
+	margin-top: 8px;
+	margin-left: 8px;
+	margin-bottom: 0px;
+}
+.archive-table-date{
+	display: inline-block;
+	background-color: $green-lightest;
+	height: 40px;
+	width: 205px;
+}
+	.archive-table-date p{
+		color: $green-darkest;
+	}
+.archive-table-app{
+	margin-left: -4px;
+	display: inline-block;
+	background-color: $green-light;
+	height: 40px;
+	width: 50px;
+}
+	.archive-table-app p{
+		color: $green-darkest;
+	}
+.archive-table-test{
+	margin-left: -4px;
+	display: inline-block;
+	background-color: $green-dark;
+	height: 40px;
+	width: 150px;
+}
+	.archive-table-test p{
+		color: $green-lightest;
+	}
+.archive-table-link{
+	margin-left: -4px;
+	display: inline-block;
+	background-color: $green-darkest;
+	height: 40px;
+}
+	.archive-table-link p{
+		padding-right: 8px;
+		-webkit-transition: font-size 0.1s, margin-top 0.1s;
+    	transition: font-size 0.1s, margin-top 0.1s;
+	}
+		.archive-table-link p:hover{
+			font-size: 17px;
+			margin-top: 7px;
+		}
+	.archive-table-link a{
+		text-decoration: none;
+		color: $green-lightest;
+	}
+
+// new new new new new new new new new new new new new new new
+// Style for the /tests/new
+// place only styles specific to that page here
+// new new new new new new new new new new new new new new new
+
+.form-wrapper p{
+	color: $green-lightest;
+}
+
+
+// id id id id id id id id id id id id id id id id id id id id
+// Style for the /tests/(specific id #)
+// place only styles specific to that page here
+// id id id id id id id id id id id id id id id id id id id id
+
+////////////////////////////////////
+////      js console errors     ////
+////////////////////////////////////
+.jsconsole-wrapper{
+	margin-top: 5px;
+	margin-bottom: 20px;
+}
+.jsconsole-wrapper p{
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+.jsconsole-page-url{
+	display: inline-block;
+	background-color: $green-light;
+	height: 30px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+	.jsconsole-page-url p{
+		color: $green-darkest;
+		margin-top: 4px;
+		font-size: 15px;
+	}
+	.jsconsole-page-url a{
+		color: $green-darkest;
+		text-decoration: none;
+	}
+.jsconsole-error-num{
+	display: inline-block;
+	vertical-align: top;
+	background-color: $green-light;
+	height: 90px;
+	width: 44px;
+}
+	.jsconsole-error-num p{
+		color: $green-darkest;
+		padding-left: 18px;
+		padding-top: 32px;
+		font-size: 15px;
+	}
+.jsconsole-titles-wrapper{
+	display: inline-block;
+	vertical-align: top;
+	width: 50px;
+}
+	.jsconsole-title{
+		margin-bottom: 3px;
+		padding-left: 5px;
+		height: 28px;
+		background-color: $green-dark;
+	}
+	.jsconsole-title p{
+		color: $green-lightest;
+		padding-top: 3px;
+		font-size: 15px;
+	}
+.jsconsole-error-wrapper{
+	display: inline-block;
+	vertical-align: top;
+}
+	.jsconsole-error-deets{
+		position: relative;
+		margin-bottom: 3px;
+		padding-left: 5px;
+		padding-right: 8px;
+		height: 28px;
+		// background-color: $green-darkest;
+	}
+		.jsconsole-error-deets p{
+			font-size: 12px;
+			color: $green-lightest;
+			padding-top: 4px;
+		}
+		.jsconsole-error-deets a{
+			text-decoration: none;
+			color: $green-lightest;
+		}
+////////////////////////////////////
+////        status codes        ////
+////////////////////////////////////
+$red-darkest: #77001A;
+$red-dark: #B91337;
+$red-light: #FCD1DB;
+.status-wrapper{
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+	.status-wrapper p{
+		margin-top: 0px;
+		margin-bottom: 0px;
+	}
+.status-number-good{
+	display: inline-block;
+	background-color: $green-dark;
+	vertical-align: top;
+	height: 30px;
+	width: 35px;
+	padding-left: 8px;
+}
+	.status-number-good p{
+		padding-top: 5px;
+		font-size: 15px;
+		color: $green-lightest;
+	}
+.status-number-bad{
+	display: inline-block;
+	background-color: $red-dark;
+	vertical-align: top;
+	height: 30px;
+	width: 35px;
+	padding-left: 8px;
+}
+	.status-number-bad p{
+		padding-top: 5px;
+		font-size: 15px;
+		color: $red-light;
+	}
+.status-page-url-good{
+	display: inline-block;
+	background-color: $green-light;
+	height: 30px;
+	padding-left: 5px;
+	padding-right: 5px;
+	margin-left: -4px;
+}
+	.status-page-url-good p{
+		color: $green-darkest;
+		margin-top: 4px;
+		font-size: 15px;
+	}
+	.status-page-url-good a{
+		color: $green-darkest;
+		text-decoration: none;
+	}
+.status-page-url-bad{
+	display: inline-block;
+	background-color: $red-light;
+	height: 30px;
+	padding-left: 5px;
+	padding-right: 5px;
+	margin-left: -4px;
+}
+	.status-page-url-bad p{
+		color: $red-darkest;
+		margin-top: 4px;
+		font-size: 15px;
+	}
+	.status-page-url-bad a{
+		color: $red-darkest;
+		text-decoration: none;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

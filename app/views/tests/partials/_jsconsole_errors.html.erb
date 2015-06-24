@@ -1,0 +1,76 @@
+		<%
+			error_counter = 0 
+			parsed["errors"].each do |item|
+				unless (item["page_errors"].empty?)
+					error_counter += 1
+				end
+			end
+		%>
+		<% if (error_counter > 1 || error_counter == 0) %>
+			<h3><%= error_counter %> pages with errors found</h3>
+		<% else %>
+			<h3><%= error_counter %> page with errors found</h3>
+		<% end %>
+		  	<% parsed["errors"].each do |item| %>
+			 	<% unless (item["page_errors"].empty?) %>
+					<div class="jsconsole-wrapper">
+	
+						<div class="row">
+							<div class="jsconsole-page-url">
+								<p>
+									<a href="<%= item["page"] %>" target="_blank">
+										<%= item["page"] %>
+									</a>
+								</p>
+							</div>
+						</div>
+						<% page_error_counter = 1 %>
+						<% item["page_errors"].each do |er| %>
+							<div class="row" style="margin-top:3px; margin-bottom:-3px;">
+								<div class="jsconsole-error-num">
+									<p>
+										<%= page_error_counter %>
+									</p>
+								</div>
+								<div class="jsconsole-titles-wrapper">
+									<div class="jsconsole-title">
+										<p>Error</p>
+									</div>
+									<div class="jsconsole-title">
+										<p>File</p>
+									</div>
+									<div class="jsconsole-title">
+										<p>Line</p>
+									</div>
+								</div>
+								<div class="jsconsole-error-wrapper">
+									<div class="jsconsole-error-deets">
+										<p>
+											<%= er["message"] %>
+										</p> 
+									</div>
+									<div class="jsconsole-error-deets">
+										<p>
+											<a href="<%= er["file"] %>" target="_blank">
+												<%= er["file"] %>
+											</a>
+										</p> 
+									</div>
+									<div class="jsconsole-error-deets">
+										<p>
+											<%= er["line"] %>
+										</p> 
+									</div>
+								</div>
+							</div>
+							<% page_error_counter += 1 %>
+						<% end %>
+					</div>
+				<% end %>
+	 		<% end %>
+
+
+
+
+
+

@@ -1,0 +1,39 @@
+<div class="content-wrapper">
+  <h1><i class="fa fa-database"></i> Archives</h1>
+  <h3>
+    <span>Time Stamp</span>
+    <span style="margin-left:95px;">App</span>
+    <span style="margin-left:10px;">Test</span>
+    <span style="margin-left:110px;">Link</span>
+   </h3>
+  <div class="archive-table-wrapper">
+    <% @tests.each do |test| %>
+    <a href="/tests/<%= test.id %>">
+      <div>
+        <div class="archive-table-date">
+          <p>
+            <%= test.created_at %>
+          </p>
+        </div>
+        <div class="archive-table-app">
+          <p>
+            <%= test.app_type %>
+          </p>
+        </div>
+        <div class="archive-table-test">
+          <p>
+            <%= test.choose_test %>
+          </p>
+        </div>
+        <div class="archive-table-link">
+          <p>
+            <a href="<%= test.app_name %>" target="_blank">
+              <%= test.app_name %>
+            </a>
+          </p>
+        </div>
+      </div>
+    </a>
+    <% end %>
+  </div>
+</div>

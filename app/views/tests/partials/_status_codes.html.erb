@@ -1,0 +1,31 @@
+<%
+	error_counter = 0 
+	parsed["status"].each do |item|
+		error_counter += 1
+	end
+%>
+
+<% if (error_counter > 1 || error_counter == 0) %>
+	<h3><%= error_counter %> pages found</h3>
+<% else %>
+	<h3><%= error_counter %> page found</h3>
+<% end %>
+
+<% parsed["status"].each do |item| %>
+	<div class="status-wrapper">
+		<div class="row">
+			<div class="<% if(item["code"] != 200 && item["code"] != 301) %>status-number-good<%else%>status-number-bad<%end%> ">
+				<p>
+					<%= item["code"] %>
+				</p>
+			</div>
+			<div class="<% if(item["code"] != 200 && item["code"] != 301) %>status-page-url-good<%else%>status-page-url-bad<%end%> ">
+				<p>
+					<a href="<%= item["page"] %>" target="_blank">
+						<%= item["page"] %>
+					</a>
+				</p>
+			</div>
+		</div>
+	</div>
+<% end %>

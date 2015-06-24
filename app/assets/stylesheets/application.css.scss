@@ -1,0 +1,109 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+
+$green-lightest: #E2F3EC;
+$green-light: #87BDA6;
+$green-mid: #4A9273;
+$green-dark: #1D6848;
+$green-darkest: #033A22;
+
+/* Header styles for the application
+* are to be placed in this section */
+
+.header-wrapper{
+	width: 100%;
+	position: fixed;
+	z-index:10;
+	top: 0px;
+	height: 70px;
+	background-color: $green-darkest;
+}
+.dragon-logo{
+	margin-top:10px;
+	margin-left: 20px;
+}
+	.dragon-logo img{
+		height:50px;
+	}
+.view-database{
+	position: absolute;
+	right: 200px;
+	top: 22px;
+	font-size: 16px;
+	-webkit-transition: font-size 0.1s, right 0.1s, top 0.1s;
+    transition: font-size 0.1s, right 0.1s, top 0.1s;
+}
+	.view-database:hover{
+		font-size: 18px;
+		right: 195px;
+		top: 21px;
+	}
+	.view-database p{
+		margin: 0px;
+	}
+	.view-database a{
+		text-decoration: none;
+		color: $green-lightest;
+	}
+.new-dragon{
+	position: absolute;
+	right: 35px;
+	top: 22px;
+	font-size: 16px;
+	-webkit-transition: font-size 0.1s, right 0.1s, top 0.1s;
+    transition: font-size 0.1s, right 0.1s, top 0.1s;
+}
+	.new-dragon:hover{
+		font-size: 18px;
+		right: 30px;
+		top: 21px;
+	}
+	.new-dragon p{
+		margin: 0px;
+	}
+	.new-dragon a{
+		text-decoration: none;
+		color: $green-lightest;
+	}
+
+body{
+	font-family: 'Open Sans';
+	margin: 0;
+	background-color: $green-mid;
+	padding-top: 70px;
+}
+h1, h2, h3{
+	color: $green-lightest;
+}
+.content-wrapper{
+	padding-left: 20px;
+	padding-right: 20px;
+}
+.row{
+	display: block;
+	margin-top: 0px;
+}
+
+
+
+
+
+
+
+
+
+
+

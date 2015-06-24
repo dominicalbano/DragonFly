@@ -1,0 +1,67 @@
+<%
+	# need to parse the json aquired from the controller
+	parsed = JSON.parse(@test.json)
+%>
+
+<div class="content-wrapper">
+	<h1>DragonFly <%= @test.id %></h1>
+	  <div class="archive-table-wrapper">
+	      <div>
+	        <div class="archive-table-date">
+	          <p>
+	            <%= @test.created_at %>
+	          </p>
+	        </div>
+	        <div class="archive-table-app">
+	          <p>
+	            <%= @test.app_type %>
+	          </p>
+	        </div>
+	        <div class="archive-table-test">
+	          <p>
+	            <%= @test.choose_test %>
+	          </p>
+	        </div>
+	        <div class="archive-table-link">
+	          <p>
+	            <a href="<%= @test.app_name %>" target="_blank">
+	              <%= @test.app_name %>
+	            </a>
+	          </p>
+	        </div>
+	      </div>
+	  </div>
+
+	<%
+	#########################
+	##    Status Codes     ##
+	#########################
+	if (defined?(parsed["status"].length)) %>
+		<%=	render "/tests/partials/status_codes", parsed: parsed %>
+	<% end %>
+
+	 
+	<%
+	#########################
+	##  JS Console Errors  ##
+	#########################
+	if (defined?(parsed["errors"].length)) %>
+		<%=	render "/tests/partials/jsconsole_errors", parsed: parsed %>
+	<% end %>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
