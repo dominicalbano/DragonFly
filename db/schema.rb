@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20150619135733) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "tests", force: :cascade do |t|
     t.string   "app_type"
     t.string   "app_name"
