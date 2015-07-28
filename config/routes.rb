@@ -7,6 +7,11 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'input#index'
 
+  require 'resque/server'
+  Selenium::Application.routes.draw do
+    mount Resque::Server.new, at: "/resque"
+  end
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

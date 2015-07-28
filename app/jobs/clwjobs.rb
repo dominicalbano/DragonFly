@@ -1,23 +1,53 @@
-############################
-## House for test modules ##
-############################
+class Clwjobs
+	@queue = :CLW
+  def self.perform(test)
+  	if (test["choose_test"] == "JS Console Errors")
+		# get links
+		get_sitemap = GatherSitemap.new
+		get_sitemap.method(test["app_name"])
+		@allurl = get_sitemap.pass
+		# run job
+		run_crawler = JSconsoleErrors.new
+		run_crawler.method(@allurl)
+		@json_data = run_crawler.pass
+		test["json"] = @json_data
+		passvar = UpdateJsonColumn.new
+		passvar.conn(test)
+	elsif (test["choose_test"] == "Status Codes")
+		# get links
+		get_sitemap = GatherSitemap.new
+		get_sitemap.method(test["app_name"])
+		@allurl = get_sitemap.pass
+		# run job
+		run_crawler = StatusCodes.new
+		run_crawler.method(@allurl)
+		@json_data = run_crawler.pass
+		test["json"] = @json_data
+		passvar = UpdateJsonColumn.new
+		passvar.conn(test)
+	end	
+  end
+end
 
-# require spec helper cuz it has gems and env setup required to run tests
-require_relative  '../../spec/spec_helper.rb'  
-# get vars
-require_relative  "#{Rails.root}/driver/variables/vars.rb"
-
-## This section of the modules file is simply for aquiring urls to test on ##
-#############################################################################
+class UpdateJsonColumn
+	def conn(test)
+		json = Test.find_by(id: test["id"])
+		json.update(json: test["json"])
+	end
+end
 
 ## class to gather a clw's sitemap
 class GatherSitemap
-	def method
+	def method(app_name)
 		# # INITIATE VARS # #
-		@@all_url = []
-		@var_holder = Vars.new 
+		@@all_url = [] 
+		if (app_name[-1, 1] == "/")
+			app = app_name[0...-1]
+		else
+			app = app_name
+		end
 		driver = Selenium::WebDriver.for :firefox 
-		driver.get "#{@var_holder.clw}/sitemap.xml"
+		driver.get "#{app}/sitemap.xml"
 
 		sleep(1)
 
@@ -28,7 +58,7 @@ class GatherSitemap
 			url_string_array = url_string.split("/")
 			domain = url_string_array[2]
 
-			rebuild = @var_holder.clw
+			rebuild = app
 			counter = 0
 
 			url_string_array.each do |piece|
@@ -47,12 +77,14 @@ class GatherSitemap
 end
 
 class CMSpages
-	def method
+	def method(app_name)
 		# # INITIATE VARS # #
 		@@all_url = []
-		@var_holder = Vars.new
-		root = @var_holder.cms
-
+		if (app_name[-1, 1] == "/")
+			root = app_name[0...-1]
+		else
+			root = app_name
+		end
 		# # push relavent urls to array # #
 		@@all_url.push(root)
 		@@all_url.push("#{root}/saves")
@@ -171,11 +203,14 @@ class JSconsoleErrors
 	def method(urls)
 		#first we need the sitemap
 		@allurl = urls
+		@json_array = '{"errors":['
 
 		profile = Selenium::WebDriver::Firefox::Profile.new
-		profile.add_extension File.join(Rails.root, "driver/assets/JSErrorCollector.xpi")
+		profile.add_extension File.join(Rails.root, "app/assets/javascripts/JSErrorCollector.xpi")
 		                
 		browser = Watir::Browser.new :firefox, :profile => profile
+
+		page_counter = 1
 
 		@allurl.each do |page|
 
@@ -191,27 +226,61 @@ class JSconsoleErrors
 			errors = browser.execute_script("return window.JSErrorCollector_errors.pump()")
 			             
 			if errors.any?
-				puts "-------------------------------------------------------------------------------------------------------------"
-				puts "Found #{errors.length} javascript error(s) on page: #{page}"
-				puts "-------------------------------------------------------------------------------------------------------------"
 
-				counter = 1
-			 
+				error_counter = 1
+				@json_array.concat('{"id":"')
+				page_counter_s = page_counter.to_s
+				@json_array.concat(page_counter_s)
+				@json_array.concat('",')
+				@json_array.concat('"page":"')
+				@json_array.concat(page)
+				@json_array.concat('",')
+				@json_array.concat('"page_errors":[')
+
 				errors.each do |error|
-					puts "[error #{counter}]" 
-					puts "message: #{error["errorMessage"]}"
-					puts "file: #{error["sourceName"]}" 
-					puts "line: #{error["lineNumber"]}" 
-					puts " "
-					counter = counter + 1
+					@json_array.concat('{"message":"')
+					@json_array.concat(error["errorMessage"])
+					@json_array.concat('",')
+
+					@json_array.concat('"file":"')
+					@json_array.concat(error["sourceName"])
+					@json_array.concat('",')
+
+					@json_array.concat('"line":"')
+					line_string = error["lineNumber"].to_s
+					@json_array.concat(line_string)
+					@json_array.concat('"}')					
+					if (errors.length != error_counter)
+						@json_array.concat(',')
+					else
+						@json_array.concat(']')
+					end
+					error_counter = error_counter + 1
 				end
 			else
-				puts "-------------------------------------------------------------------------------------------------------------"
-				puts "Found No Errors"	
-				puts "-------------------------------------------------------------------------------------------------------------"
+				@json_array.concat('{"id":"')
+				page_counter_s = page_counter.to_s
+				@json_array.concat(page_counter_s)
+				@json_array.concat('",')
+				@json_array.concat('"page":"')
+				@json_array.concat(page)
+				@json_array.concat('",')
+				@json_array.concat('"page_errors":[]')
 			end
+			
+			@json_array.concat('}') 
+			if (@allurl.length != page_counter)
+				@json_array.concat(',')
+			end
+			page_counter = page_counter + 1
+
 		end
+		@json_array.concat(']}')
 		browser.quit
+	end
+
+	def pass
+		return @json_array
 	end
 end
 
@@ -219,27 +288,34 @@ end
 class StatusCodes
 	def method (urls)
 		@allurl = urls
+
+		@json_array = '{"status":['
+		page_counter = 1
+
 		@allurl.each do |page|
 			uri = URI(page)
 			res = Net::HTTP.get_response(uri)
 
-			puts "--------------------------"
-			puts res.code
-			puts page
-			puts "--------------------------"
+			@json_array.concat('{"id":"')
+			page_counter_s = page_counter.to_s
+			@json_array.concat(page_counter_s)
+			@json_array.concat('",')
+			@json_array.concat('"page":"')
+			@json_array.concat(page)
+			@json_array.concat('",')
+			@json_array.concat('"code":"')
+			@json_array.concat(res.code)
+			@json_array.concat('"}')
+			if (@allurl.length != page_counter)
+				@json_array.concat(',')
+			end
+
+			page_counter = page_counter + 1
 		end
+		@json_array.concat(']}')
+	end
+
+	def pass
+		return @json_array
 	end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-

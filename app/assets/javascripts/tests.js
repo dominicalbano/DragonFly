@@ -46,40 +46,4 @@ function check_value(){
   	}
 
 }
-
-function show_load(){
-	// ajax loader
-}
-
-// {
-//    "errors":[
-//       {
-//         "id":1,
-//         "page":"http://url.com",
-//         "page_errors":[
-//         	{
-//         		"message":"error["errorMessage"]",
-//         		"file":"error["sourceName"]",
-//         		"line":"error["lineNumber"]"
-//         	},
-//         	{
-//         		"message":"error["errorMessage"]",
-//         		"file":"error["sourceName"]",
-//         		"line":"error["lineNumber"]"
-//         	}
-//         ]
-//       },
-//       {
-//         "id":2,
-//         "page":"http://url2.com",
-//         "page_errors":[
-//         	{
-//         		"message":"error["errorMessage"]",
-//         		"file":"error["sourceName"]",
-//         		"line":"error["lineNumber"]"
-//         	}
-//         ]
-//       }
-//     ]
-// }
  
