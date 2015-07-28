@@ -27,14 +27,22 @@ gem 'json'
 gem 'resque'
 gem 'resque-scheduler'
 
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+# Call 'byebug' anywhere in the code to stop execution and get a debugger console
+gem 'byebug'
 
-# Use Unicorn as the app server
-# gem 'unicorn'
+# Access an IRB console on exception pages or by using <%= console %> in views
+gem 'web-console', '~> 2.0'
 
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
+# Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+gem 'spring'
+
+#driver stuff
+gem 'rspec-rails'
+gem 'capybara'
+gem 'selenium-webdriver'
+gem 'factory_girl_rails'
+gem 'cucumber'
+gem 'watir-webdriver'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
