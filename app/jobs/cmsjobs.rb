@@ -186,7 +186,6 @@ class JSconsoleErrors
 			errors = browser.execute_script("return window.JSErrorCollector_errors.pump()")
 			             
 			if errors.any?
-
 				error_counter = 1
 				@json_array.concat('{"id":"')
 				page_counter_s = page_counter.to_s

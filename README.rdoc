@@ -1,28 +1,13 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a basic rails app setup for the purpose of automated testing. A front end accepts user params to execute a defined set of tests on defined applications on the G5 Platform. It has gems that allow a variety of driver tests, but can be configured to run any kind of test in a background process handled by resque/redis. It's currently a proof of concept, but can be scaled easily.
 
-Things you may want to cover:
+To Run the app 
+install gems: bundle install
+start server: rails server
+start redis: redis-server
+start workers: 
+bundle exec rake environment resque:work QUEUE=CMS
+bundle exec rake environment resque:work QUEUE=CLW
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+Tests are located in the app/jobs directory

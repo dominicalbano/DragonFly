@@ -1,32 +1,32 @@
 class Clwjobs
 	@queue = :CLW
-  def self.perform(test)
-  	if (test["choose_test"] == "JS Console Errors")
-		# get links
-		get_sitemap = GatherSitemap.new
-		get_sitemap.method(test["app_name"])
-		@allurl = get_sitemap.pass
-		# run job
-		run_crawler = JSconsoleErrors.new
-		run_crawler.method(@allurl)
-		@json_data = run_crawler.pass
-		test["json"] = @json_data
-		passvar = UpdateJsonColumn.new
-		passvar.conn(test)
-	elsif (test["choose_test"] == "Status Codes")
-		# get links
-		get_sitemap = GatherSitemap.new
-		get_sitemap.method(test["app_name"])
-		@allurl = get_sitemap.pass
-		# run job
-		run_crawler = StatusCodes.new
-		run_crawler.method(@allurl)
-		@json_data = run_crawler.pass
-		test["json"] = @json_data
-		passvar = UpdateJsonColumn.new
-		passvar.conn(test)
-	end	
-  end
+	def self.perform(test)
+	  	if (test["choose_test"] == "JS Console Errors")
+			# get links
+			get_sitemap = GatherSitemap.new
+			get_sitemap.method(test["app_name"])
+			@allurl = get_sitemap.pass
+			# run job
+			run_crawler = JSconsoleErrors.new
+			run_crawler.method(@allurl)
+			@json_data = run_crawler.pass
+			test["json"] = @json_data
+			passvar = UpdateJsonColumn.new
+			passvar.conn(test)
+		elsif (test["choose_test"] == "Status Codes")
+			# get links
+			get_sitemap = GatherSitemap.new
+			get_sitemap.method(test["app_name"])
+			@allurl = get_sitemap.pass
+			# run job
+			run_crawler = StatusCodes.new
+			run_crawler.method(@allurl)
+			@json_data = run_crawler.pass
+			test["json"] = @json_data
+			passvar = UpdateJsonColumn.new
+			passvar.conn(test)
+		end	
+	end
 end
 
 class UpdateJsonColumn
@@ -71,125 +71,6 @@ class GatherSitemap
 		end
 		driver.quit
 	end
-	def pass
-		return @@all_url
-	end
-end
-
-class CMSpages
-	def method(app_name)
-		# # INITIATE VARS # #
-		@@all_url = []
-		if (app_name[-1, 1] == "/")
-			root = app_name[0...-1]
-		else
-			root = app_name
-		end
-		# # push relavent urls to array # #
-		@@all_url.push(root)
-		@@all_url.push("#{root}/saves")
-
-		# # CRAWL CMS FOR URLS # #
-		driver = Selenium::WebDriver.for :firefox 
-		driver.get root
-		# authenticate
-		if (driver.title == "G5 Auth")
-			email = driver.find_element(:id, "user_email")
-			email.send_keys ("dominic.albano@getg5.com")
-			pass = driver.find_element(:id, "user_password")
-			pass.send_keys ("OmGiGaJ!")
-			sub = driver.find_element(:name, "button")
-			sub.submit
-			driver.get root
-		end
-		sleep(5)
-		# need to find how many sites we got
-		sites = driver.find_element(:class,"faux-table-body")
-		li = sites.find_elements(:tag_name, "li")
-		count_li = 0
-		li.each do |add|
-			count_li = count_li + 1
-		end
-
-		# we need an array that just holds site urls
-		@@all_sites = []
-		# Add site urls and function urls to array
-		for i in 1..count_li
-			site_root = driver.find_element(:xpath, "//li[#{i}]/div[3]/a")
-			site_root_url = site_root.attribute("href")
-			@@all_url.push(site_root_url)
-			@@all_url.push("#{site_root_url}/assets")
-			@@all_url.push("#{site_root_url}/redirects")
-			@@all_url.push("#{site_root_url}/releases")
-			@@all_url.push("#{site_root_url}/docs")
-
-			@@all_sites.push(site_root_url)
-		end
-
-		# Navigate to page urls per site url and add to array
-		for j in 0..(count_li - 1)
-			driver.get @@all_sites[j]
-			sleep(10)
-
-			cards = driver.find_element(:class,"cards")
-			card = cards.find_elements(:class,"card")
-			card_count = 0
-			card.each do |add|
-				card_count = card_count + 1
-			end
-
-		 	for k in 1..(card_count - 1)
-		 		page = driver.find_element(:xpath,"//div[#{k}]/div/div/div[2]/div[3]/a")
-		 		page_url = page.attribute("href")
-		 		@@all_url.push(page_url)
-		 	end
-		end
-		driver.quit
-	end
-
-	def pass
-		return @@all_url
-	end
-end
-
-class ClientSites
-	def method
-		# # INITIATE VARS # #
-		@@all_url = []
-		@var_holder = Vars.new
-		root = @var_holder.cms
-
-		# # CRAWL CMS FOR CLW URLS # #
-		driver = Selenium::WebDriver.for :firefox 
-		driver.get root
-		# authenticate
-		if (driver.title == "G5 Auth")
-			email = driver.find_element(:id, "user_email")
-			email.send_keys ("dominic.albano@getg5.com")
-			pass = driver.find_element(:id, "user_password")
-			pass.send_keys ("OmGiGaJ!")
-			sub = driver.find_element(:name, "button")
-			sub.submit
-			driver.get root
-		end
-		sleep(5)
-		# need to find how many sites we got
-		sites = driver.find_element(:class,"faux-table-body")
-		li = sites.find_elements(:tag_name, "li")
-		count_li = 0
-		li.each do |add|
-			count_li = count_li + 1
-		end
-		# Add clw urls to array
-		for i in 1..count_li
-			site_root = driver.find_element(:xpath, "//li[#{i}]/div[3]/a[2]")
-			site_root_url = site_root.attribute("href")
-			@@all_url.push(site_root_url)
-			puts site_root_url
-		end
-		driver.quit
-	end
-
 	def pass
 		return @@all_url
 	end
