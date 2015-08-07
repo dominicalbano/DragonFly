@@ -1,5 +1,7 @@
 == README
 
+UPDATE: Turns out running selenium on a heroku webworker isn't an established thing. PhantomJS will work better since buildpacks exist for it, this will require a rewrite of the crawler logic in the jobs =/
+
 This is a basic rails app setup for the purpose of automated testing. A front end accepts user params to execute a defined set of tests on defined applications on the G5 Platform. It has gems that allow a variety of driver tests, but can be configured to run any kind of test in a background process handled by resque/redis. It's currently a proof of concept, but can be scaled easily.
 
 To Run the app 
